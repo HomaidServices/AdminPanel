@@ -1,13 +1,35 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Loginpage.css'
 import { useNavigate } from 'react-router-dom'
 import img from '../../assets/logo.webp'
+import axios from 'axios';
 export default function Loginpage() {
     const navigate = useNavigate();
-    const handleSubmit = (event) => {
-        document.body.style.backgroundImage='none'
+    const [status,updateStatus]=useState('')
+    const handleSubmit = async(event) => {
+        // document.body.style.backgroundImage='none'
         event.preventDefault()
-        navigate('/main')
+        const username=document.getElementById('username').value
+        const password=document.getElementById('password').value
+        let user={
+            username:username,
+            password:password
+        }
+        console.log(user)
+        await axios.post('http://localhost:3000/',user).then((result)=>{
+            let res=result.data
+            if(res==='Correct'){
+                console.log('Yay')
+                updateStatus('')
+                navigate('/main')
+            }
+            else{
+                updateStatus(res)
+            }
+        }).catch((error)=>{
+            console.log(error)
+        })
+        // 
     }
 
     return (
@@ -21,6 +43,7 @@ export default function Loginpage() {
                     <input type="password" name="password" id="password" placeholder="Password" required />
                     <input type="submit" value="Sign In" />
                 </form>
+                <div className="my-2 text-center text-danger">{status}</div>
             </div>
         </div>
     )

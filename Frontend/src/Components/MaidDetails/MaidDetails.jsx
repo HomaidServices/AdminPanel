@@ -1,17 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import SideNavbar from '../SideNavbar/SideNavbar'
 import './MaidDetails.css'
 import Filter from './Filter'
 import img from '../../assets/logo.webp'
 import BottomNavbar from '../BottomNavbar/BottomNavbar'
+import axios from 'axios'
 export default function MaidDetails() {
     const [view, changeView] = useState(true)
+    const [maiddetails, SetMaidDetails] = useState([])
     const handleview = (e) => {
         if (e.target.name == 'large')
             changeView(true)
         else
             changeView(false)
     }
+    const [filter, setFilter] = useState('Filter')
+    const handlefilter = (e) => {
+        console.log(e.target.name)
+        setFilter(e.target.name)
+    }
+
+    const handlesearch = async () => {
+        let val = document.querySelector('.search-inp').value
+        if (filter === 'Experience')
+            val = parseInt(val)
+        console.log({ [filter]: val })
+        await axios.post('http://localhost:3000/maiddetails', { [filter]: val }).then((response) => {
+            SetMaidDetails(response.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+
+    const removefilter = () => {
+        getdata()
+    }
+
     console.log(img)
     const list = {
         'names': ['Savitri', 'Priyanka', 'Namesha', 'Lorraine', 'Chandni'],
@@ -46,23 +70,34 @@ export default function MaidDetails() {
 
     const create_table = () => {
 
-        let trows = main_set.map((row, index) => {
+        let trows = maiddetails.map((row, index) => {
             return (
                 <tr >
-                    
+
                     {view && <td scope="row">{index + 1}</td>}
                     <td><img src={img} height={50} width={50} alt="Loading" /></td>
-                    <td>{row.names}</td>
-                    <td>{row.phone}</td>
-                    {view && <td>{row.address }</td>}
-                    {view && <td>{row.aadhar}</td>}
-                    {view && <td>{row.Experience}</td>}
-                    <td>{row.Type}</td>
+                    <td>{row['Name']}</td>
+                    <td>{row['Phone_number']}</td>
+                    {view && <td>{row['Address']}</td>}
+                    {view && <td>{row['Aadhar']}</td>}
+                    {view && <td>{row['Experience']}</td>}
+                    <td>{row['Proefficient_in']}</td>
                 </tr>
             )
         })
         return trows
     }
+    const getdata = async () => {
+        await axios.get('http://localhost:3000/maiddetails').then((response) => {
+            console.log(response.data)
+            SetMaidDetails(response.data)
+        }).catch((err) => {
+            console.log(err)
+        })
+    }
+    useEffect(() => {
+        getdata()
+    }, [])
 
     return (
         <>
@@ -70,7 +105,7 @@ export default function MaidDetails() {
             {window.innerWidth > 560 && <SideNavbar />}
             <div className="container-table p-0 ">
                 <h1 className=" mx-2 mt-0 text-center">Maid Details</h1>
-                <Filter view={view} handleview={handleview} />
+                <Filter view={view} handleview={handleview} filter={filter} handlefilter={handlefilter} handlesearch={handlesearch} removefilter={removefilter} />
                 <div className="maid-table shadow rounded overflow-auto ">
 
 

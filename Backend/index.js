@@ -1,14 +1,15 @@
 const express=require('express')
 const app=express()
 const mysql2 = require('mysql2');
-
+const cors=require('cors')
 port=3000
+const MaidRouter=require('./Routes/Router.maiddetails.js')
+const UserRouter=require('./Routes/Router.user_auth.js')
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.urlencoded({ extended: false }));
+app.use(cors())
 
-
-const MaidRouter=require('./Routes/Router.maiddetails.js')
 const conn = mysql2.createConnection({
     host: 'localhost',
     user: 'krishnendu19802',
@@ -36,3 +37,4 @@ conn.connect((err) => {
 //     console.log('MySQL connection closed');
 // });
 app.use('/maiddetails',MaidRouter(conn))
+app.use('/',UserRouter(conn))
