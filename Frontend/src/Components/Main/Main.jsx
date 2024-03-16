@@ -1,12 +1,21 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useContext, useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import SideNavbar from '../SideNavbar/SideNavbar'
 import './Main.css'
 import BottomNavbar from '../BottomNavbar/BottomNavbar'
+import { AuthContext } from '../../AuthProvider'
 export default function Main() {
+    const { isAuthenticated, login, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+    console.log(isAuthenticated)
+    
     const handlecollapse = () => {
         document.body.classList.toggle('close')
     }
+    useEffect(()=>{
+        if(isAuthenticated[0]===false)
+        navigate('/')
+    },[])
 
     return (
         <div>

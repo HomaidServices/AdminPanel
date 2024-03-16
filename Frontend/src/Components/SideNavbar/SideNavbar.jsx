@@ -1,7 +1,10 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { AuthContext } from '../../AuthProvider'
 
 export default function SideNavbar() {
+    const { isAuthenticated, login, logout } = useContext(AuthContext);
+    
     const navigate = useNavigate()
     const [mode, alterMode] = useState(document.body.classList.contains('dark') ? true : false)
     const [closed, alterClosed] = useState(document.body.classList.contains('closed')? true : false)
@@ -10,7 +13,7 @@ export default function SideNavbar() {
         document.body.classList.toggle('dark')
     }
     const handlelogout = () => {
-        
+        logout()
         navigate('/')
         // url("src/assets/30.webp");
 
@@ -22,6 +25,7 @@ export default function SideNavbar() {
         alterClosed(closed => !closed)
         document.body.classList.toggle('closed')
     }
+    
     return (
         // <div>
             <nav className={`${closed ? 'close' : ''} ${mode ? 'dark' : ''}`}>

@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './Loginpage.css'
 import { useNavigate } from 'react-router-dom'
 import img from '../../assets/logo.webp'
 import axios from 'axios';
+import { AuthContext } from '../../AuthProvider';
+
 export default function Loginpage() {
+    const { isAuthenticated, login, logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const [status,updateStatus]=useState('')
     const handleSubmit = async(event) => {
@@ -18,9 +21,11 @@ export default function Loginpage() {
         console.log(user)
         await axios.post('http://localhost:3000/',user).then((result)=>{
             let res=result.data
-            if(res==='Correct'){
+            // console.log(res)
+            if(res[0]==='Correct'){
                 console.log('Yay')
                 updateStatus('')
+                login([res[1].username,res[1].email])
                 navigate('/main')
             }
             else{

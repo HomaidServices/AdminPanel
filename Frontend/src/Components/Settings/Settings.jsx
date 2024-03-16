@@ -1,16 +1,20 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SideNavbar from '../SideNavbar/SideNavbar'
 import './Settings.css'
 import Modal from './Modal'
 import BottomNavbar from '../BottomNavbar/BottomNavbar'
 import { FaInstagram, FaFacebook, FaLinkedin, FaTwitter } from "react-icons/fa";
 import Calendar from './Calendar'
+import { AuthContext } from '../../AuthProvider'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 export default function Settings() {
-  // const [change,setChange]=useState({'username':'User','email':'user@gmail','password':'********'})
+  const [user,setUser]=useState({})
   console.log(document.body.classList.contains('dark'))
   const [mode, alterMode] = useState(document.body.classList.contains('dark') ? true : false)
-  
-  const user = { 'username': 'User', 'email': 'user@gmail', 'password': '********' }
+  const { isAuthenticated, login, logout } = useContext(AuthContext);
+  console.log(isAuthenticated)
+  // const user = { 'username': 'User', 'email': 'user@gmail', 'password': '********' }
   const handleClick = (e) => {
     // console.log(e.target.name)
     const inp = e.target.name
@@ -28,6 +32,25 @@ export default function Settings() {
 
 
   }
+
+  const getData=()=>{
+    setUser({
+      username: isAuthenticated[1][0],
+      email: isAuthenticated[1][1]
+    })
+    console.log(user)
+  }
+  const navigate=useNavigate()
+  useEffect(()=>{
+    if(isAuthenticated[0]===false)
+    navigate('/')
+    getData()
+  },[isAuthenticated])
+
+  // const handlesave=async(data)=>{
+  //   console.log(data)
+  // }
+
 
   const socialaccount = [
     { 'facebook': ['friends', '20k'] },
@@ -65,7 +88,7 @@ export default function Settings() {
   return (
     <>
 
-      <Modal username={user.username} email={user.email} />
+      <Modal user={user}  login={login} getData={getData} />
 
       {window.innerWidth > 560 && <SideNavbar />}
 
@@ -81,13 +104,13 @@ export default function Settings() {
               <div className="accordion-body d-flex flex-column" id='collapseOne'>
                 <div className="username container-fluid p-2 fs-4  align-items-center">
                   Current Username
-                  <p className="rounded mx-2 fs-4 bg-secondary p-2 overflow-auto">User</p>
+                  <p className="rounded mx-2 fs-4 bg-secondary p-2 overflow-auto">{user.username}</p>
                   <button className="btn btn-danger p-2  ms-auto" data-bs-toggle="modal" data-bs-target="#changeusername" id='username' >Change</button>
                 </div>
                 <hr />
                 <div className="email  fs-4 p-2">
                   Current email
-                  <p className="rounded bg-secondary p-2 mx-2 fs-4 overflow-auto">User@gmail.com</p>
+                  <p className="rounded bg-secondary p-2 mx-2 fs-4 overflow-auto">{user.email}</p>
                   <button className="btn btn-danger p-1 ms-auto" data-bs-toggle="modal" data-bs-target="#changeemail" id='Email' >Change</button>
                 </div>
                 <hr />

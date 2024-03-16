@@ -25,7 +25,7 @@ module.exports=(conn)=>{
         console.log('hi')
         const {username,password}=req.body
         console.log(req.body)
-        let sql= `SELECT password FROM admin_user WHERE username='${username}';`
+        let sql= `SELECT email,username,password FROM admin_user WHERE username='${username}';`
         conn.query(sql, (err, result) => {
             if (err) console.log(err);
             console.log(result)
@@ -36,11 +36,13 @@ module.exports=(conn)=>{
             
             verifyPassword(password,result[0].password).then((val)=>{
                 if(val)
-                res.send('Correct')
+                res.send(['Correct',{username: result[0].username,email: result[0].email}])
+            // res.send(result[0])
                 else
                 res.send('Wrong password')
             })
         });
     })
+
     return Router
 }

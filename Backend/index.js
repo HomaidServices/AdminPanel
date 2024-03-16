@@ -5,7 +5,7 @@ const cors=require('cors')
 port=3000
 const MaidRouter=require('./Routes/Router.maiddetails.js')
 const UserRouter=require('./Routes/Router.user_auth.js')
-
+const SettingsRouter=require('./Routes/Router_settings.js')
 app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 app.use(cors())
@@ -38,3 +38,4 @@ conn.connect((err) => {
 // });
 app.use('/maiddetails',MaidRouter(conn))
 app.use('/',UserRouter(conn))
+app.use('/settings',SettingsRouter(conn))
