@@ -58,6 +58,10 @@ export default function SideNavbar() {
                             <i className={`uil uil-chart ${loc.pathname==='/salesreport'?'text-primary':''}`}></i>
                             <span className={`link-name ${loc.pathname==='/salesreport'?'text-primary':''}`}>Sales Report</span>
                         </Link></li>
+                        <li><Link to="/records">
+                            <i className={`uil uil-chart ${loc.pathname==='/records'?'text-primary':''}`}></i>
+                            <span className={`link-name ${loc.pathname==='/records'?'text-primary':''}`}>Records</span>
+                        </Link></li>
                         <li><Link to="/messages">
                             <i className={`uil uil-message ${loc.pathname==='/messages'?'text-primary':''}`}></i>
                             <span className={`link-name ${loc.pathname==='/messages'?'text-primary':''}`}>Messages</span>

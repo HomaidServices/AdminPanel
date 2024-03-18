@@ -59,3 +59,12 @@ CREATE TABLE admin_user (
     username VARCHAR(400) PRIMARY KEY,
     password VARCHAR(200)    
 );
+
+CREATE TABLE records(
+    customer_email VARCHAR(255),
+    maid_aadhar VARCHAR(255),
+    date DATE,
+    type VARCHAR(20),
+    subtype VARCHAR(20),
+    PRIMARY KEY (customer_email,maid_aadhar,date)
+);

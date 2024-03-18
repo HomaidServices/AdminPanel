@@ -1,5 +1,7 @@
 const express = require('express')
 const app = express()
+const { verifyPassword } = require('../Helper/AuthHelper.js')
+
 
 const Router = express.Router()
 const mysql2 = require('mysql2');
@@ -7,17 +9,6 @@ const bcrypt = require('bcrypt')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-async function verifyPassword(plainPassword, hashedPassword) {
-    try {
-        // Compare the provided password with the stored hashed password
-        const result = await bcrypt.compare(plainPassword, hashedPassword);
-        console.log(result)
-        return result
-    } catch (error) {
-        throw new Error('Error verifying password');
-    }
-}
 
 module.exports=(conn)=>{
     // console.log('User has come')

@@ -12,6 +12,7 @@ import Settings from './Components/Settings/Settings'
 import MaidDetails from './Components/MaidDetails/MaidDetails'
 import IndvMessage from './Components/Messages/IndvMessage'
 import { useNavigate } from 'react-router-dom';
+import Records from './Components/Records/Records'
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -25,8 +26,10 @@ function App() {
       {/* <Loginpage/> */}
       <BrowserRouter>
         <Routes>
+          
           <Route exact path='/' element={<Loginpage />}></Route>
           <Route exact path='/main' element={<Main/>}></Route>
+          <Route exact path='/records' element={<Records/>}></Route>
           <Route exact path='/maiddetails' element={<MaidDetails/>}></Route>
           <Route exact path='/analytics' element={<Analytics/>}></Route>
           <Route exact path='/salesreport' element={<SalesReport/>}></Route>
