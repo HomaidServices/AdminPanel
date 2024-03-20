@@ -68,3 +68,24 @@ CREATE TABLE records(
     subtype VARCHAR(20),
     PRIMARY KEY (customer_email,maid_aadhar,date)
 );
+
+CREATE TABLE cleaning_services (
+    name VARCHAR(250) NOT NULL,
+    location VARCHAR(250) NOT NULL,
+    recurring VARCHAR(250) NOT NULL,
+    house_type VARCHAR(250) NOT NULL,
+    cleaning_service_type VARCHAR(250) NOT NULL,
+    date_and_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    email VARCHAR(250) NOT NULL
+);
+
+INSERT INTO cleaning_services (name, location, recurring, house_type, cleaning_service_type, email) VALUES ('Jarvis', 'Hyderabad', 'Weekly', '1BHK', 'Regular Cleaning', 'jarvis@example.com');
+
+CREATE TABLE cooking_services (
+    name VARCHAR(250) NOT NULL,
+    location VARCHAR(250) NOT NULL,
+    recurring VARCHAR(250) NOT NULL,
+    family_member_count VARCHAR(250) NOT NULL,
+    date_and_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    email VARCHAR(250) NOT NULL
+);

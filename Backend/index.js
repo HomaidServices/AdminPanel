@@ -8,6 +8,7 @@ const UserRouter=require('./Routes/Router.user_auth.js')
 const SettingsRouter=require('./Routes/Router_settings.js')
 const addUserRouter=require('./Routes/Routes.addUser.js')
 const recordsRouter=require('./Routes/Routes.records.js')
+const servicesRouter=require('./Routes/Router.services.js')
 app.use(express.json());
 // app.use(express.urlencoded({ extended: false }));
 app.use(cors())
@@ -43,4 +44,6 @@ app.use('/',UserRouter(conn))
 app.use('/settings',SettingsRouter(conn))
 app.use('/adduser',addUserRouter(conn))
 app.use('/records',recordsRouter(conn))
+app.use('/services',servicesRouter(conn))
+
 
