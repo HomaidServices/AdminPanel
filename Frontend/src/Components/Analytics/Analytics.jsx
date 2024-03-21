@@ -1,22 +1,43 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Analytics.css'
 import SideNavbar from '../SideNavbar/SideNavbar'
 import BottomNavbar from '../BottomNavbar/BottomNavbar';
 import imported_charts from './Charts';
+import axios from 'axios';
 
 export default function Analytics() {
-    
+    const [cooking_data, setCooking_data] = useState([])
+    const [cleaning_data, setCleaning_data] = useState([])
+
     const handleclick = (e) => {
         // console.log(e.target.name)
         const clas = e.target.className.split(' ')[0]
         imported_charts.Change_chart(e.target.name, clas)
     }
 
-    useEffect(() => {
+    const getchartdata = async () => {
+        await axios.get('http://localhost:3000/services').then((result) => {
+            const [cd, cld] = result.data
+            setCooking_data(cd)
+            setCleaning_data(cld)
+            console.log(cd)
+            console.log(cld)
 
-        imported_charts.Charts()
+        }).catch((error) => {
+            console.log(error)
+        })
+    }
+
+    useEffect(() => {
+        getchartdata()
+        console.log(cooking_data)
         imported_charts.targetChart()
     }, [])
+
+    useEffect(()=>{
+        imported_charts.Charts(cleaning_data,cooking_data)
+
+    },[cooking_data, cleaning_data])
 
 
     return (

@@ -9,9 +9,10 @@ import { AuthContext } from '../../AuthProvider'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
 export default function Settings() {
-  const [user,setUser]=useState({})
+  const [user, setUser] = useState({})
   console.log(document.body.classList.contains('dark'))
   const [mode, alterMode] = useState(document.body.classList.contains('dark') ? true : false)
+  const [status,setStatus]=useState(false)
   const { isAuthenticated, login, logout } = useContext(AuthContext);
   console.log(isAuthenticated)
   // const user = { 'username': 'User', 'email': 'user@gmail', 'password': '********' }
@@ -33,19 +34,19 @@ export default function Settings() {
 
   }
 
-  const getData=()=>{
+  const getData = () => {
     setUser({
       username: isAuthenticated[1][0],
       email: isAuthenticated[1][1]
     })
     console.log(user)
   }
-  const navigate=useNavigate()
-  useEffect(()=>{
-    if(isAuthenticated[0]===false)
-    navigate('/')
+  const navigate = useNavigate()
+  useEffect(() => {
+    if (isAuthenticated[0] === false)
+      navigate('/')
     getData()
-  },[isAuthenticated])
+  }, [isAuthenticated])
 
   // const handlesave=async(data)=>{
   //   console.log(data)
@@ -84,11 +85,33 @@ export default function Settings() {
 
   }
 
+  const handleadduser = async(e) => {
+    e.preventDefault()
+    const username = document.getElementById('usernameadd').value
+    const email = document.getElementById('emailadd').value
+    const name = document.getElementById('nameadd').value
+    const password = document.getElementById('passwordadd').value
+
+    await axios.post('http://localhost:3000/adduser',{
+      "username":username,
+      "email":email,
+      "name":name,
+      "password":password
+    }).then((result)=>{
+      console.log(result.data)
+    }).catch((error)=>{
+       console.log(error)
+       setStatus(error)
+    })
+
+
+  }
+
 
   return (
     <>
 
-      <Modal user={user}  login={login} getData={getData} />
+      <Modal user={user} login={login} getData={getData} />
 
       {window.innerWidth > 560 && <SideNavbar />}
 
@@ -154,6 +177,21 @@ export default function Settings() {
                     <button className="btn btn-success ms-auto btn-sm"> Accept</button>
                     <button className="btn btn-danger ms-3 btn-sm">Decline</button>
                   </div>
+                  <hr />
+                  <div className='fs-4 cooking'>
+                    <p>Add User </p>
+                    <div >
+                      <form onSubmit={handleadduser} className="d-flex my-2">
+                        <input type="text" className='mx-1 px-1' id='usernameadd' required placeholder='username' />
+                        <input type="text" className='mx-1 px-1' id='emailadd' required placeholder='email' />
+                        <input type="text" className='mx-1 px-1' id='nameadd' required placeholder='name' />
+                        <input type="text" className='mx-1 px-1' id='passwordadd' required placeholder='password' />
+                        <button className="btn btn-success ms-auto btn-sm"> Accept</button>
+                      </form>
+                      <div className="text-success">{status}</div>
+                    </div>
+
+                  </div>
                 </div>
                 <hr />
                 <div className="block-unblock my-2 d-flex">
@@ -171,7 +209,7 @@ export default function Settings() {
             {returncard()}
 
           </div>
-          <Calendar/>
+          <Calendar />
         </div>
       </div>
       {window.innerWidth < 560 && <BottomNavbar />}

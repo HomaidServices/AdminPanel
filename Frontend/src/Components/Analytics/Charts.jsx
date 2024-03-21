@@ -1,6 +1,6 @@
 let totalsales_data = []
-const cooking_data = [1500, 2200, 1800, 2500, 200, 1500, 2200, 1800, 2500, 200, 1500, 1000];
-const cleaning_data = [5500, 3200, 4000, 2100, 380, 5500, 3200, 4000, 2100, 380, 4500, 2700];
+// const cooking_data = [1500, 2200, 1800, 2500, 200, 1500, 2200, 1800, 2500, 200, 1500, 1000];
+// const cleaning_data = [5500, 3200, 4000, 2100, 380, 5500, 3200, 4000, 2100, 380, 4500, 2700];
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 const date = new Date()
 const day = date.getDay()
@@ -42,8 +42,9 @@ function create_new_chart(el, name, type, data, labels) {
     });
 }
 
-function charts() {
-
+function charts(cleaning_data,cooking_data) {
+     
+    console.log(cooking_data,cleaning_data)
     for (let i = 0; i < cooking_data.length; i++) {
         totalsales_data.push(cooking_data[i] + cleaning_data[i])
     }
