@@ -28,6 +28,8 @@ export default function Modal({ user, login, getData }) {
         console.log(tosend)
         await axios.post('http://localhost:3000/settings', tosend).then((result) => {
             console.log(result.data)
+            localStorage.removeItem('homaid_admin_token')
+            localStorage.setItem('homaid_admin_token',result.data.token)
             login([result.data.username, result.data.email])
             setAlert(['alert-success', 'Updated Successfully'])
             setUsername('')

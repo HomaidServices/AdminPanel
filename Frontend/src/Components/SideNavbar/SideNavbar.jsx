@@ -14,6 +14,7 @@ export default function SideNavbar() {
     }
     const handlelogout = () => {
         logout()
+        localStorage.removeItem('homaid_admin_token')
         navigate('/')
         // url("src/assets/30.webp");
 

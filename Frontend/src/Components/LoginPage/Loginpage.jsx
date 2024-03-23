@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Loginpage.css'
 import { useNavigate } from 'react-router-dom'
 import img from '../../assets/logo.webp'
@@ -8,34 +8,60 @@ import { AuthContext } from '../../AuthProvider';
 export default function Loginpage() {
     const { isAuthenticated, login, logout } = useContext(AuthContext);
     const navigate = useNavigate();
-    const [status,updateStatus]=useState('')
-    const handleSubmit = async(event) => {
+    const [status, updateStatus] = useState('')
+    const handleSubmit = async (event) => {
         // document.body.style.backgroundImage='none'
         event.preventDefault()
-        const username=document.getElementById('username').value
-        const password=document.getElementById('password').value
-        let user={
-            username:username,
-            password:password
+        const username = document.getElementById('username').value
+        const password = document.getElementById('password').value
+        let user = {
+            username: username,
+            password: password
         }
         console.log(user)
-        await axios.post('http://localhost:3000/',user).then((result)=>{
-            let res=result.data
-            // console.log(res)
-            if(res[0]==='Correct'){
+        await axios.post('http://localhost:3000/', user).then((result) => {
+            let res = result.data
+            console.log(res)
+            localStorage.setItem('homaid_admin_token', res[1].token)
+            if (res[0] === 'Correct') {
                 console.log('Yay')
                 updateStatus('')
-                login([res[1].username,res[1].email])
+                login([res[1].username, res[1].email])
                 navigate('/main')
             }
-            else{
+            else {
                 updateStatus(res)
             }
-        }).catch((error)=>{
+        }).catch((error) => {
             console.log(error)
         })
         // 
     }
+
+    const checkauto = async () => {
+        const token = localStorage.getItem('homaid_admin_token')
+        // console.log(token)
+        if (token) {
+            const headers = {
+                "Authorization": `Bearer ${token}`
+            };
+
+            await axios.post('http://localhost:3000/', {}, { headers })
+                .then((result) => {
+                    const res = result.data
+                    login([res[1].username, res[1].email])
+                    navigate('/main')
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        }
+
+    }
+    useEffect(() => {
+        checkauto()
+
+    }, [])
 
     return (
         <div className="outer overflow-hidden" >

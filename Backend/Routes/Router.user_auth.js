@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
 const { verifyPassword } = require('../Helper/AuthHelper.js')
-
+const jwt = require('jsonwebtoken');
 
 const Router = express.Router()
 const mysql2 = require('mysql2');
@@ -10,27 +10,57 @@ const bcrypt = require('bcrypt')
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-module.exports=(conn)=>{
-    // console.log('User has come')
-    Router.post('/',(req,res)=>{
-        console.log('hi')
-        const {username,password}=req.body
-        console.log(req.body)
-        let sql= `SELECT email,username,password FROM admin_user WHERE username='${username}';`
+const secretKey = 'your_secret_key';
+
+module.exports = (conn) => {
+    function verifyToken(req, res, next) {
+        // Check for token in headers
+        // console.log('header',req.headers)
+        const token = req.headers.authorization && req.headers.authorization.split(' ')[1];
+        if (!token) {
+            next()
+        }
+        // Verify token
+        else {
+
+
+            jwt.verify(token, secretKey, (err, decoded) => {
+                if (err) {
+                   next()
+
+                }
+                // Token is valid, attach decoded user information to request object
+                req.user = decoded;
+                // console.log("hello", req.user)
+                res.send(['Correct', { username: req.user.username, email: req.user.email, }])
+                // next();
+
+            });
+        }
+    }
+    Router.post('/', verifyToken, (req, res) => {
+        // console.log('hi')
+        const { username, password } = req.body
+        // console.log("user here", req.user)
+        let sql = `SELECT email,username,password FROM admin_user WHERE username='${username}';`
         conn.query(sql, (err, result) => {
-            if (err) console.log(err);
+            if (err) res.send(err);
             console.log(result)
-            if(result.length==0){
+            if (result.length == 0) {
                 res.send('Invalid username')
                 return
             }
-            
-            verifyPassword(password,result[0].password).then((val)=>{
-                if(val)
-                res.send(['Correct',{username: result[0].username,email: result[0].email}])
-            // res.send(result[0])
+
+            verifyPassword(password, result[0].password).then((val) => {
+                if (val) {
+                    // Generate JWT
+                    const token = jwt.sign({ username: username, email: result[0].email }, secretKey, { expiresIn: '7d' });
+                    // res.json({ token });
+                    res.send(['Correct', { username: result[0].username, email: result[0].email,token:token }])
+                }
+                // res.send(result[0])
                 else
-                res.send('Wrong password')
+                    res.send('Wrong password')
             })
         });
     })

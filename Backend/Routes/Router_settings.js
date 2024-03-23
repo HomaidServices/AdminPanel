@@ -1,5 +1,6 @@
 const express = require('express')
 const app = express()
+const jwt = require('jsonwebtoken');
 
 const Router = express.Router()
 const mysql2 = require('mysql2');
@@ -7,6 +8,8 @@ const bcrypt = require('bcrypt')
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+const secretKey = 'your_secret_key';
 
 const saltRounds = 10;
 // Function to hash and salt a password
@@ -55,8 +58,9 @@ module.exports = (conn) => {
                 if (error) res.send(error)
                 let sql = `SELECT username,email FROM admin_user WHERE ${identification}='${idfvalue}';`
                 conn.query(sql, (err, result) => {
+                    const token = jwt.sign({ username: result[0].username, email: result[0].email }, secretKey, { expiresIn: '7d' });
                     if (err) res.status(400).send('Error fetching response')
-                    res.send(result[0])
+                    res.send({...result[0],'token':token})
                 })
             })
 
