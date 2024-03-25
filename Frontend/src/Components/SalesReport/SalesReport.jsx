@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import SideNavbar from '../SideNavbar/SideNavbar'
 import './SalesReport.css'
 import BottomNavbar from '../BottomNavbar/BottomNavbar'
+import { AuthContext } from '../../AuthProvider';
+import { useNavigate } from 'react-router-dom';
 export default function SalesReport() {
+    const { isAuthenticated, login, logout } = useContext(AuthContext);
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (isAuthenticated[0] === false)
+            navigate('/')
+        
+    }, [isAuthenticated])
     return (
         <>
             {window.innerWidth > 560 && <SideNavbar />}

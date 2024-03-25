@@ -12,8 +12,13 @@ export default function Settings() {
   const [user, setUser] = useState({})
   console.log(document.body.classList.contains('dark'))
   const [mode, alterMode] = useState(document.body.classList.contains('dark') ? true : false)
-  const [status,setStatus]=useState(false)
+  const [status, setStatus] = useState(false)
   const { isAuthenticated, login, logout } = useContext(AuthContext);
+  useEffect(() => {
+    if (isAuthenticated[0] === false)
+      navigate('/')
+    getData()
+  }, [isAuthenticated])
   console.log(isAuthenticated)
   // const user = { 'username': 'User', 'email': 'user@gmail', 'password': '********' }
   const handleClick = (e) => {
@@ -42,11 +47,7 @@ export default function Settings() {
     console.log(user)
   }
   const navigate = useNavigate()
-  useEffect(() => {
-    if (isAuthenticated[0] === false)
-      navigate('/')
-    getData()
-  }, [isAuthenticated])
+
 
   // const handlesave=async(data)=>{
   //   console.log(data)
@@ -85,27 +86,42 @@ export default function Settings() {
 
   }
 
-  const handleadduser = async(e) => {
+  const [alertuser, setAlertUser] = useState(false)
+
+
+  const handleadduser = async (e) => {
     e.preventDefault()
     const username = document.getElementById('usernameadd').value
     const email = document.getElementById('emailadd').value
     const name = document.getElementById('nameadd').value
     const password = document.getElementById('passwordadd').value
 
-    await axios.post('http://localhost:3000/adduser',{
-      "username":username,
-      "email":email,
-      "name":name,
-      "password":password
-    }).then((result)=>{
+    await axios.post('http://localhost:3000/adduser', {
+      "username": username,
+      "email": email,
+      "name": name,
+      "password": password
+    }).then((result) => {
       console.log(result.data)
-    }).catch((error)=>{
-       console.log(error)
-       setStatus(error)
+      setAlertUser(['alert-success','Successfully added'])
+    }).catch((error) => {
+      console.log(error.response.data)
+      setAlertUser(['alert-danger',error.response.data])
+
     })
 
 
   }
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setAlertUser(false);
+    }, 1500);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [alertuser])
 
 
   return (
@@ -178,15 +194,20 @@ export default function Settings() {
                     <button className="btn btn-danger ms-3 btn-sm">Decline</button>
                   </div>
                   <hr />
-                  <div className='fs-4 cooking'>
-                    <p>Add User </p>
+                  <div className=' user-addition'>
+                    <p className='fs-3'>Add User </p>
                     <div >
+                    {alertuser && <div class={`alert ${alertuser[0]} alert-dismissible fade show`} role="alert">
+                                <strong>{alertuser[1]}</strong>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>}
                       <form onSubmit={handleadduser} className="d-flex my-2">
-                        <input type="text" className='mx-1 px-1' id='usernameadd' required placeholder='username' />
-                        <input type="text" className='mx-1 px-1' id='emailadd' required placeholder='email' />
-                        <input type="text" className='mx-1 px-1' id='nameadd' required placeholder='name' />
-                        <input type="text" className='mx-1 px-1' id='passwordadd' required placeholder='password' />
-                        <button className="btn btn-success ms-auto btn-sm"> Accept</button>
+                        
+                        <input type="text" className='mx-1 px-1 fs-5' id='usernameadd' required placeholder='username' />
+                        <input type="text" className='mx-1 px-1 fs-5' id='emailadd' required placeholder='email' />
+                        <input type="text" className='mx-1 px-1 fs-5' id='nameadd' required placeholder='name' />
+                        <input type="text" className='mx-1 px-1 fs-5' id='passwordadd' required placeholder='password' />
+                        <button className="btn btn-success ms-auto btn-sm">Add </button>
                       </form>
                       <div className="text-success">{status}</div>
                     </div>

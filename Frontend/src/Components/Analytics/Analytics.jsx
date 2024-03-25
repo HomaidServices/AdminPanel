@@ -1,14 +1,24 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './Analytics.css'
 import SideNavbar from '../SideNavbar/SideNavbar'
 import BottomNavbar from '../BottomNavbar/BottomNavbar';
 import imported_charts from './Charts';
 import axios from 'axios';
+import { AuthContext } from '../../AuthProvider';
+import { useNavigate } from 'react-router-dom';
 
 export default function Analytics() {
     const [cooking_data, setCooking_data] = useState([])
     const [cleaning_data, setCleaning_data] = useState([])
+    const { isAuthenticated, login, logout } = useContext(AuthContext);
+    const navigate = useNavigate()
 
+    useEffect(() => {
+        if (isAuthenticated[0] === false)
+            navigate('/')
+        
+    }, [isAuthenticated])
+    
     const handleclick = (e) => {
         // console.log(e.target.name)
         const clas = e.target.className.split(' ')[0]

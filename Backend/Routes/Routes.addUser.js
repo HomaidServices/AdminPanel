@@ -11,7 +11,7 @@ module.exports = (conn) => {
             conn.query(sql, async (error, result) => {
                 if (error) res.status(400).send(error)
                 if (result.length != 0)
-                    res.send('Username or email already exits')
+                    res.status(401).send('Username or email already exits')
                 else {
 
                     // res.send('Correct')

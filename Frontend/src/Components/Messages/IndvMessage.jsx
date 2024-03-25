@@ -1,10 +1,19 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import SideNavbar from '../SideNavbar/SideNavbar'
 import BottomNavbar from '../BottomNavbar/BottomNavbar'
 import messages from './message_list'
+import { AuthContext } from '../../AuthProvider'
 export default function IndvMessage() {
     const [mess_list,updMEss_list]=useState(messages.messages)
+    const { isAuthenticated, login, logout } = useContext(AuthContext);
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (isAuthenticated[0] === false)
+            navigate('/')
+        
+    }, [isAuthenticated])
     const containerRef = useRef(null);
     const scrollToBottom = () => {
         containerRef.current.scrollTop = containerRef.current.scrollHeight;

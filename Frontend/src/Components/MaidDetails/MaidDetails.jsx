@@ -1,13 +1,23 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import SideNavbar from '../SideNavbar/SideNavbar'
 import './MaidDetails.css'
 import Filter from './Filter'
 import img from '../../assets/logo.webp'
 import BottomNavbar from '../BottomNavbar/BottomNavbar'
 import axios from 'axios'
+import { AuthContext } from '../../AuthProvider'
+import { useNavigate } from 'react-router-dom'
 export default function MaidDetails() {
     const [view, changeView] = useState(true)
     const [maiddetails, SetMaidDetails] = useState([])
+    const { isAuthenticated, login, logout } = useContext(AuthContext);
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if (isAuthenticated[0] === false)
+            navigate('/')
+        
+    }, [isAuthenticated])
     const handleview = (e) => {
         if (e.target.name == 'large')
             changeView(true)
