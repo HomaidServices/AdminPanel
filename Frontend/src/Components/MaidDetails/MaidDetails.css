@@ -11,18 +11,32 @@
     /* overflow:auto; */
     transition: 1s all;
 }
+.prev-next{
+    position: relative;
+    left: 270px;
+    width: 70%;
+    transition: 1s all;
+
+}
 .search-element{
     position: relative;
-    width: 80%;
+    width: 60%;
     left: 350px;
     transition: 1s all;
     justify-content: center;
     
     height: 15%;
 }
+nav.close ~ .container-table .prev-next{
+    left: 80px;
+    width: 80%;
+}
+
 nav.close ~ .container-table .search-element{
-    left: 250px;
-    max-width: 80%;
+    /* left: 250px; */
+    left: 100px;
+
+    width: 80%;
 }
 
 .filter-form,.options-view-filter{

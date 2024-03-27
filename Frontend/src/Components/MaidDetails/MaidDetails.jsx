@@ -12,11 +12,12 @@ export default function MaidDetails() {
     const [maiddetails, SetMaidDetails] = useState([])
     const { isAuthenticated, login, logout } = useContext(AuthContext);
     const navigate = useNavigate()
+    const [currentpage, setCurrentPage] = useState(0)
 
     useEffect(() => {
         if (isAuthenticated[0] === false)
             navigate('/')
-        
+
     }, [isAuthenticated])
     const handleview = (e) => {
         if (e.target.name == 'large')
@@ -104,18 +105,28 @@ export default function MaidDetails() {
         }).catch((err) => {
             console.log(err)
         })
+        // await axios.get(`http://localhost:3000/maiddetails/${page}`).then((response) => {
+        //     console.log(response.data)
+        //     SetMaidDetails(response.data)
+        // }).catch((err) => {
+        //     console.log(err)
+        // })
     }
     useEffect(() => {
         getdata()
     }, [])
-
+    console.log(currentpage)
     return (
         <>
             {generate()}
             {window.innerWidth > 560 && <SideNavbar />}
             <div className="container-table p-0 ">
                 <h1 className=" mx-2 mt-0 text-center">Maid Details</h1>
-                <Filter view={view} handleview={handleview} filter={filter} handlefilter={handlefilter} handlesearch={handlesearch} removefilter={removefilter} />
+                <Filter view={view} handleview={handleview} filter={filter} handlefilter={handlefilter} handlesearch={handlesearch} removefilter={removefilter} currentpage={currentpage} setCurrentPage={setCurrentPage} />
+                {/* <div className="d-flex justify-content-between prev-next mb-2">
+                    <button className="btn btn-primary">Prev</button>
+                    <button className="btn btn-primary">Next</button>
+                </div> */}
                 <div className="maid-table shadow rounded overflow-auto ">
 
 
