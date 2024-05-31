@@ -1,0 +1,76 @@
+
+.description{
+    height: 200px;
+    margin-top: 10px;
+    padding: 10px;
+    
+}
+
+
+
+.timemanagement input{
+margin-left: 50px;
+margin-right: 50px;
+    
+}
+
+
+.bookbutton{
+    width: 100px;
+    height: 50px;
+    margin-top: 20px;
+    margin-left: -50px;
+}
+
+.time-table{
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    text-align: center;
+    
+}
+
+.time-table thead tr th{
+
+background-color: rgb(61, 101, 116);
+color: white;
+border: 1px solid black;
+border-color: var(--text-color);
+
+   
+}
+
+
+.time-table th, .time-table td{
+    padding: 12px;
+    border: 1px solid black;
+    border-color: var(--text-color);
+    
+}
+
+
+
+
+
+.timemanagementdiv{
+height: 100vh;
+overflow-y: scroll;
+}
+
+.time-input input {
+ 
+    width: 150px;
+}
+.time-input  {
+ 
+    display: flex ;
+    width: 100%;
+    justify-content: space-around;
+    
+}
+
+.totalmaid{
+    position: absolute;
+    left: 81%;
+    bottom: auto;
+}

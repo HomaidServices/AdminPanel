@@ -1,0 +1,64 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    height: 90vh;
+    overflow: auto;
+}
+
+h1 {
+    color: #333;
+}
+
+#salesTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#salesTable th, #salesTable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+#salesTable th {
+    background-color: #3498db;
+    color: #fff;
+}
+
+#salesTable tfoot {
+    font-weight: bold;
+}
+
+.total-label {
+    text-align: right;
+}
+
+#totalSales {
+    color: #e74c3c;
+}
+
+
+@media (max-width: 950px) {
+    .container{
+        max-width: 350px;
+        padding: 15px;
+    }
+
+    #salesTable{
+        width: 80%;
+    }
+    
+}

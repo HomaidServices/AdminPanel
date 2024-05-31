@@ -1,0 +1,72 @@
+CREATE TABLE maid_table (
+    Photo LONGBLOB,
+    Name VARCHAR(255),
+    Phone_number VARCHAR(10),
+    Address VARCHAR(400),
+    Aadhar VARCHAR(13) PRIMARY KEY,
+    Experience FLOAT,
+    Proefficient_in VARCHAR(50)
+);
+
+INSERT INTO maid_table (Photo, Name, Phone_number, Address, Aadhar, Experience, Proefficient_in) VALUES (
+    LOAD_FILE('D:\homaid\adminPanel_React\Backend\logo.webp'),  
+    'Chandni',
+    '7985781558',
+    'Hyderabad',
+    '787997841242',
+    2.0,
+    'Cooking'
+);
+
+ALTER USER 'username'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+
+
+
+CREATE TABLE admin_user (
+    name VARCHAR(255),
+    email VARCHAR(255) ,
+    username VARCHAR(400) PRIMARY KEY,
+    password VARCHAR(200)    
+);
+
+CREATE TABLE records(
+    customer_email VARCHAR(255),
+    maid_aadhar VARCHAR(255),
+    date DATE,
+    type VARCHAR(20),
+    subtype VARCHAR(20),
+    PRIMARY KEY (customer_email,maid_aadhar,date)
+);
+
+CREATE TABLE cleaning_services (
+    name VARCHAR(250) NOT NULL,
+    location VARCHAR(250) NOT NULL,
+    recurring VARCHAR(250) NOT NULL,
+    house_type VARCHAR(250) NOT NULL,
+    cleaning_service_type VARCHAR(250) NOT NULL,
+    date_and_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    email VARCHAR(250) NOT NULL
+);
+
+INSERT INTO cleaning_services (name, location, recurring, house_type, cleaning_service_type, email) VALUES ('Jarvis', 'Hyderabad', 'Weekly', '1BHK', 'Regular Cleaning', 'jarvis@example.com');
+
+CREATE TABLE cooking_services (
+    name VARCHAR(250) NOT NULL,
+    location VARCHAR(250) NOT NULL,
+    recurring VARCHAR(250) NOT NULL,
+    family_member_count VARCHAR(250) NOT NULL,
+    date_and_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    email VARCHAR(250) NOT NULL
+);
+
+CREATE TABLE PAYMENT_HISTORY(
+    payment_id VARCHAR(255),
+    date_and_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    amount FLOAT NOT NULL
+);
+
+ALTER TABLE cleaning_services
+ADD COLUMN payment_id VARCHAR(255);//foreign key from payment_history 
+
+ALTER TABLE cooking_services
+ADD COLUMN payment_id VARCHAR(255);

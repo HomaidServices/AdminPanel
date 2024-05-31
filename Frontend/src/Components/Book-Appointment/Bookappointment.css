@@ -1,0 +1,11 @@
+.ms{
+    height: 100vh;
+    
+ 
+}
+
+
+table, th, td {
+    border:1px solid black;
+    height: 50px;
+  }

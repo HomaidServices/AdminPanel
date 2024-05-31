@@ -1,0 +1,16 @@
+.container-records{
+    width: 100%;
+}
+.main-records{
+    position: relative;
+    left: 280px;
+    max-width: 80%;
+    overflow: auto;
+}
+
+@media screen and (max-width:560px) {
+    .main-records{
+        left: 10px;
+        max-width: 95vw;
+    }
+}

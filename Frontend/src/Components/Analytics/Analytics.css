@@ -1,0 +1,125 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container-analysis {
+    position: relative;
+    left: 260px;
+    max-width: 60%;
+    height: 95vh;
+    /* margin: 50px auto; */
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: 1s all;
+}
+.container-analysis h1{
+   height: 8vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+nav.close~.container-analysis {
+    left: 260px;
+    /* max-width: 65%; */
+}
+
+.main-chart-container {
+    width: 700px;
+}
+
+canvas {
+    background: transparent;
+    max-width: 100%;
+    min-height: 250px;
+}
+
+.chart-container {
+    margin-top: 20px;
+    width: 100%;
+    margin-right: 0;
+}
+
+.data-summary {
+    margin-top: 20px;
+}
+
+/* h1, h2 {
+    color: #333;
+} */
+
+h3 {
+    height: 10vh;
+    display: flex;
+}
+
+h3 button {
+    width: 50px;
+    
+}
+
+
+
+
+@media (max-width: 1000px) {
+    .container-analysis {
+        max-width: 70%;
+        margin-right: 3%;
+        left: 90px;
+    }
+    h3{
+        display: block;
+    }
+    h3 div{
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    h3 div button {
+        width: 60px;
+        max-height: 50px;
+        font-size: small;
+    }
+
+    .main-chart-container {
+        width: 500px;
+    }
+
+    nav.close~.container-analysis {
+        left: 250px;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+    .container-analysis {
+        max-width: 100%;
+        margin-right: 3%;
+        left: 10px;
+        margin-top: 10%;
+        overflow-x: scroll;
+        padding: 0;
+    }
+    h3 div{
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    h3 div button {
+        width: 60px;
+        max-height: 50px;
+        font-size: small;
+    }
+    .main-chart-container{
+        width: 100%;
+    }
+    h3{
+        display: block;
+    }
+}
